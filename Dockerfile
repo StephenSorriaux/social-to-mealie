@@ -1,7 +1,7 @@
 FROM oven/bun:debian
 
 WORKDIR /app
-
+RUN apt-get update && apt-get install -y chromium
 COPY package.json .
 COPY bun.lock .
 
