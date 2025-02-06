@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import OpenAI from 'openai';
-// import { nodewhisper } from 'nodejs-whisper';
 
 const filePath = path.resolve(__dirname, '../output_audio.mp3');
 
