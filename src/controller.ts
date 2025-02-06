@@ -1,23 +1,25 @@
-import fs from 'node:fs';
 import { error } from 'elysia';
-import { getUrl } from './instagram';
 import { postRecipe } from './mealie';
+import { getInstagram } from './social-networks/instagram';
+import { getTiktok } from './social-networks/tiktok';
+import type { recipeInfo } from './types';
+import { removeMedia } from './utils';
 
 // @ts-ignore
 export default async function processRecipe({ body, env }) {
   try {
-    const data = await getUrl({ env, url: body.url });
-    if (fs.existsSync('output_audio.mp3')) {
-      fs.unlinkSync('output_audio.mp3');
+    removeMedia();
+    let data: recipeInfo;
+    if (body.url.includes('instagram')) {
+      data = await getInstagram({ env, url: body.url });
+    } else if (body.url.includes('tiktok')) {
+      data = await getTiktok({ env, url: body.url });
+    } else {
+      return error(400, JSON.stringify({ error: 'Invalid URL' }));
     }
-    if (fs.existsSync('video.mp4')) {
-      fs.unlinkSync('video.mp4');
-    }
-    if (fs.existsSync('output_audio.wav')) {
-      fs.unlinkSync('output_audio.wav');
-    }
+    removeMedia();
     return JSON.stringify({
-      data: `${env.MEALIE_URL}/g/home/r/${await postRecipe({ ...data, env })}`,
+      data: `${env.MEALIE_URL}/g/home/r/${await postRecipe(data, env)}`,
     });
   } catch (e: any) {
     return error('Internal Server Error', JSON.stringify({ error: e.message }));
