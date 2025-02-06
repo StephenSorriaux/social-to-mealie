@@ -8,7 +8,7 @@ import { getTranscription } from './ai';
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 async function get_description({ url }: { url: string }): Promise<string> {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'], defaultViewport: null });
   const page = await browser.newPage();
 
   try {
@@ -19,7 +19,6 @@ async function get_description({ url }: { url: string }): Promise<string> {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('meta[property="og:description"]', { timeout: 5000 });
 
-    // Extract the content of the meta tag
     const description = await page.$eval('meta[property="og:description"]', (el) => el.getAttribute('content'));
     return description ? description : 'No description found';
   } catch (error) {
