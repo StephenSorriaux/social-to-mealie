@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import OpenAI from 'openai';
+import { audiofile } from './constants';
 
-const filePath = path.resolve(__dirname, '../output_audio.mp3');
+const filePath = path.resolve(__dirname, `../${audiofile}`);
 
 export async function getTranscription({ env }: { env: Record<string, string> }) {
   const ai = new OpenAI({
