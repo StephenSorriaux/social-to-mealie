@@ -7,7 +7,7 @@ For now only works with Instagram but will add more in the future if people inte
 
 ## Deployment
 
-To deploy this just use the docker-compose.yml
+To deploy this just use the docker-compose.yml and populate all the environment variables
 
 ## Features
 
