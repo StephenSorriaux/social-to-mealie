@@ -1,9 +1,5 @@
 name: Build and Publish Docker Image
 
-on:
-  release:
-    types: [published]
-
 jobs:
   build:
     runs-on: ubuntu-lATEST
