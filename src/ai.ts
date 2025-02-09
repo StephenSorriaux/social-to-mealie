@@ -12,7 +12,7 @@ export async function getTranscription({ env }: { env: Record<string, string> })
   });
   const transcription = await ai.audio.transcriptions.create({
     file: fs.createReadStream(filePath),
-    model: 'whisper-1',
+    model: env.WHISPER_MODEL,
   });
   console.log(transcription.text);
   return transcription.text;
